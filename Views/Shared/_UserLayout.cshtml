@@ -1,0 +1,38 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<nav class="area-nav user-nav">
+    <ul>
+        <li>
+            <a asp-area="" asp-controller="Home" asp-action="Index"
+               class="@(ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")">
+                Dashboard
+            </a>
+        </li>
+        <li>
+            <a asp-area="" asp-controller="Home" asp-action="Search"
+               class="@(ViewContext.RouteData.Values["action"]?.ToString() == "Search" ? "active" : "")">
+                Search
+            </a>
+        </li>
+        <li>
+            <a asp-area="" asp-controller="Home" asp-action="Privacy"
+               class="@(ViewContext.RouteData.Values["action"]?.ToString() == "Privacy" ? "active" : "")">
+                Privacy
+            </a>
+        </li>
+    </ul>
+    <ul class="nav-right">
+        <li>
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index">Admin</a>
+        </li>
+        <li>
+            <a asp-area="Airline" asp-controller="Home" asp-action="Index">Airline</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="area-content">
+    @RenderBody()
+</div>

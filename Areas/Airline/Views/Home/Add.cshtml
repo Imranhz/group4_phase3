@@ -1,0 +1,109 @@
+@model Group4Flight.Models.Flight
+@{
+    ViewData["Title"] = "Add Flight";
+    var airlines = (List<Group4Flight.Models.Airline>)(ViewBag.Airlines ?? new List<Group4Flight.Models.Airline>());
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">Add New Flight</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="Add" method="post" novalidate>
+                    @* Summary for any cross-field errors. Property-level errors render next to each field below. *@
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger d-none"></div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="FlightCode" class="form-label fw-semibold"></label>
+                            <input asp-for="FlightCode" class="form-control" placeholder="e.g. AC101" />
+                            <span asp-validation-for="FlightCode" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="AirlineId" class="form-label fw-semibold"></label>
+                            <select asp-for="AirlineId" class="form-select">
+                                <option value="">-- Select Airline --</option>
+                                @foreach (var airline in airlines)
+                                {
+                                    <option value="@airline.AirlineId">@airline.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for="AirlineId" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="From" class="form-label fw-semibold"></label>
+                            <input asp-for="From" class="form-control" placeholder="e.g. Toronto" />
+                            <span asp-validation-for="From" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="To" class="form-label fw-semibold"></label>
+                            <input asp-for="To" class="form-control" placeholder="e.g. Vancouver" />
+                            <span asp-validation-for="To" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Date" class="form-label fw-semibold"></label>
+                            <input asp-for="Date" type="date" class="form-control" />
+                            <span asp-validation-for="Date" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="DepartureTime" class="form-label fw-semibold"></label>
+                            <input asp-for="DepartureTime" type="time" class="form-control" />
+                            <span asp-validation-for="DepartureTime" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="ArrivalTime" class="form-label fw-semibold"></label>
+                            <input asp-for="ArrivalTime" type="time" class="form-control" />
+                            <span asp-validation-for="ArrivalTime" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="CabinType" class="form-label fw-semibold"></label>
+                            <select asp-for="CabinType" class="form-select">
+                                <option value="">-- Select Cabin --</option>
+                                @foreach (var cabin in Group4Flight.Models.FlightViewModel.CabinTypes)
+                                {
+                                    <option value="@cabin">@cabin</option>
+                                }
+                            </select>
+                            <span asp-validation-for="CabinType" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="AircraftType" class="form-label fw-semibold"></label>
+                            <select asp-for="AircraftType" class="form-select">
+                                <option value="">-- Select Aircraft --</option>
+                                @foreach (var aircraft in Group4Flight.Models.FlightViewModel.AircraftTypes)
+                                {
+                                    <option value="@aircraft">@aircraft</option>
+                                }
+                            </select>
+                            <span asp-validation-for="AircraftType" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Emission" class="form-label fw-semibold"></label>
+                            <input asp-for="Emission" type="number" step="0.1" class="form-control" placeholder="e.g. 120.5" />
+                            <span asp-validation-for="Emission" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Price" class="form-label fw-semibold"></label>
+                            <input asp-for="Price" type="number" step="0.01" class="form-control" placeholder="e.g. 299.99" />
+                            <span asp-validation-for="Price" class="text-danger small"></span>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2 justify-content-end mt-4">
+                        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-success">Add Flight</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @* jQuery validation + unobtrusive wires up every data-val-* attribute on the form.    *@
+    @* The custom futuredate.js adapter is what teaches unobtrusive about the server-side *@
+    @* [FutureDate] attribute so the same rule runs on the client side.                   *@
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/futuredate.js" asp-append-version="true"></script>
+}

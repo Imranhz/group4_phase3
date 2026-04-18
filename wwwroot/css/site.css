@@ -1,0 +1,261 @@
+/* =====================
+   Base Reset & Fonts
+   ===================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* =====================
+   Site Header (common)
+   ===================== */
+.site-header {
+    background-color: #0d1b2a;
+    color: #fff;
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.site-header .brand a {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+.site-header .brand a:hover {
+    color: #90caf9;
+}
+
+.site-header .header-tagline {
+    font-size: 0.85rem;
+    color: #aac8e4;
+    font-style: italic;
+}
+
+/* =====================
+   Area Nav
+   ===================== */
+.area-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    height: 52px;
+}
+
+.area-nav ul {
+    display: flex;
+    list-style: none;
+    gap: 4px;
+}
+
+.area-nav ul.nav-right {
+    margin-left: auto;
+}
+
+.area-nav ul li a {
+    display: block;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+}
+
+/* Active link highlight */
+.area-nav ul li a.active {
+    font-weight: 700;
+    border-bottom: 3px solid currentColor;
+}
+
+/* =====================
+   User Nav (blue theme)
+   ===================== */
+.user-nav {
+    background-color: #1565c0;
+    color: #fff;
+}
+
+.user-nav ul li a {
+    color: #e3f2fd;
+}
+
+.user-nav ul li a:hover {
+    background-color: #0d47a1;
+    color: #fff;
+}
+
+.user-nav ul li a.active {
+    background-color: #0d47a1;
+    color: #fff;
+    border-bottom-color: #90caf9;
+}
+
+/* =====================
+   Admin Nav (dark red theme)
+   ===================== */
+.admin-nav {
+    background-color: #b71c1c;
+    color: #fff;
+}
+
+.admin-nav ul li a {
+    color: #ffebee;
+}
+
+.admin-nav ul li a:hover {
+    background-color: #7f0000;
+    color: #fff;
+}
+
+.admin-nav ul li a.active {
+    background-color: #7f0000;
+    color: #fff;
+    border-bottom-color: #ef9a9a;
+}
+
+/* =====================
+   Airline Nav (teal theme)
+   ===================== */
+.airline-nav {
+    background-color: #00695c;
+    color: #fff;
+}
+
+.airline-nav ul li a {
+    color: #e0f2f1;
+}
+
+.airline-nav ul li a:hover {
+    background-color: #004d40;
+    color: #fff;
+}
+
+.airline-nav ul li a.active {
+    background-color: #004d40;
+    color: #fff;
+    border-bottom-color: #80cbc4;
+}
+
+/* =====================
+   Area Content Wrapper
+   ===================== */
+.area-content {
+    padding: 40px 32px;
+}
+
+/* =====================
+   Dashboard Hero Sections
+   ===================== */
+.dashboard-hero {
+    position: relative;
+    border-radius: 10px;
+    padding: 60px 40px;
+    text-align: center;
+    margin-bottom: 32px;
+    box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.35);
+    color: #fff;
+}
+
+/* Backgrounds per area */
+body.user .dashboard-hero {
+    background: url('/images/hero-bg.png') center/cover no-repeat;
+}
+
+body.admin .dashboard-hero {
+    background: linear-gradient(135deg, #b71c1c, #ef5350);
+}
+
+body.airline .dashboard-hero {
+    background: linear-gradient(135deg, #00695c, #26a69a);
+}
+
+.dashboard-hero h1 {
+    font-size: 2.2rem;
+    margin-bottom: 14px;
+    font-weight: 700;
+}
+
+.dashboard-hero p {
+    font-size: 1.1rem;
+    max-width: 560px;
+    margin: 0 auto 24px;
+    opacity: 0.9;
+}
+
+/* User hero */
+.user-hero {
+    background: linear-gradient(135deg, #1565c0, #42a5f5);
+    color: #fff;
+}
+
+/* Admin hero */
+.admin-hero {
+    background: linear-gradient(135deg, #b71c1c, #ef5350);
+    color: #fff;
+}
+
+/* Airline hero */
+.airline-hero {
+    background: linear-gradient(135deg, #00695c, #26a69a);
+    color: #fff;
+}
+
+/* =====================
+   Button
+   ===================== */
+.btn-primary {
+    display: inline-block;
+    background-color: #fff;
+    color: #1565c0;
+    padding: 12px 28px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background 0.2s, color 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #e3f2fd;
+}
+
+/* =====================
+   Site Footer (common)
+   ===================== */
+.site-footer {
+    background-color: #0d1b2a;
+    color: #aac8e4;
+    text-align: center;
+    padding: 16px 32px;
+    font-size: 0.88rem;
+}
+
+.site-footer a {
+    color: #90caf9;
+}
+
+.site-footer a:hover {
+    text-decoration: underline;
+}

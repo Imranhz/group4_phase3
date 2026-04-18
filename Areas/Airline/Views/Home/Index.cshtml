@@ -1,0 +1,61 @@
+@model IEnumerable<Group4Flight.Models.Flight>
+@{
+    ViewData["Title"] = "Manage Flights";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Manage Flights</h2>
+    <a asp-action="Add" class="btn btn-success">+ Add New Flight</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">No flights found. Click "Add New Flight" to get started.</div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Flight Code</th>
+                    <th>Airline</th>
+                    <th>Route</th>
+                    <th>Date</th>
+                    <th>Departure</th>
+                    <th>Arrival</th>
+                    <th>Cabin</th>
+                    <th>Aircraft</th>
+                    <th>Emission</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var flight in Model)
+                {
+                    <tr>
+                        <td><span class="badge bg-secondary">@flight.FlightCode</span></td>
+                        <td>@(flight.Airline?.Name ?? "—")</td>
+                        <td>@flight.From → @flight.To</td>
+                        <td>@flight.Date.ToString("MMM dd, yyyy")</td>
+                        <td>@flight.DepartureTime.ToString(@"hh\:mm")</td>
+                        <td>@flight.ArrivalTime.ToString(@"hh\:mm")</td>
+                        <td>@flight.CabinType</td>
+                        <td>@flight.AircraftType</td>
+                        <td>@flight.Emission kg</td>
+                        <td class="fw-bold text-success">$@flight.Price.ToString("0.00")</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@flight.FlightId" class="btn btn-outline-primary btn-sm">Edit</a>
+                            <form asp-action="Delete" method="post" class="d-inline"
+                                  onsubmit="return confirm('Delete flight @flight.FlightCode?');">
+                                <input type="hidden" name="id" value="@flight.FlightId" />
+                                <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

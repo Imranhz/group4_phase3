@@ -1,0 +1,127 @@
+@model Group4Flight.Models.FlightViewModel
+@{
+    ViewData["Title"] = "Search Flights";
+}
+
+<h2 class="mb-4">Search Flights</h2>
+
+<div class="row g-4">
+    <!-- Filter Panel -->
+    <div class="col-lg-3">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Filter Flights</h5>
+            </div>
+            <div class="card-body">
+                <form asp-action="Index" method="post">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">From</label>
+                        <select name="From" class="form-select">
+                            <option value="">All Departures</option>
+                            @foreach (var city in Model.FromOptions)
+                            {
+                                <option value="@city" selected="@(Model.From == city ? "selected" : null)">@city</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">To</label>
+                        <select name="To" class="form-select">
+                            <option value="">All Destinations</option>
+                            @foreach (var city in Model.ToOptions)
+                            {
+                                <option value="@city" selected="@(Model.To == city ? "selected" : null)">@city</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Date Range</label>
+                        <input type="text" id="daterange" class="form-control" placeholder="Select date range"
+                               value="@(string.IsNullOrEmpty(Model.StartDate) ? "" : Model.StartDate + " - " + Model.EndDate)" />
+                        <input type="hidden" id="StartDate" name="StartDate" value="@Model.StartDate" />
+                        <input type="hidden" id="EndDate" name="EndDate" value="@Model.EndDate" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Cabin Type</label>
+                        <select name="CabinType" class="form-select">
+                            <option value="">All Cabins</option>
+                            @foreach (var cabin in Group4Flight.Models.FlightViewModel.CabinTypes)
+                            {
+                                <option value="@cabin" selected="@(Model.CabinType == cabin ? "selected" : null)">@cabin</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Apply Filters</button>
+                    </div>
+                </form>
+                @if (!string.IsNullOrEmpty(Model.From) || !string.IsNullOrEmpty(Model.To) ||
+                     !string.IsNullOrEmpty(Model.CabinType) || !string.IsNullOrEmpty(Model.StartDate))
+                {
+                    <form asp-action="Back" method="post" class="mt-2">
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-outline-secondary btn-sm">Clear Filters</button>
+                        </div>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Panel -->
+    <div class="col-lg-9">
+        @if (!Model.Flights.Any())
+        {
+            <div class="alert alert-info">
+                No flights found matching your criteria. Try adjusting your filters.
+            </div>
+        }
+        else
+        {
+            <p class="text-muted mb-3">Showing <strong>@Model.Flights.Count()</strong> flight(s)</p>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Flight</th>
+                            <th>Airline</th>
+                            <th>Route</th>
+                            <th>Date</th>
+                            <th>Departure</th>
+                            <th>Arrival</th>
+                            <th>Cabin</th>
+                            <th>Aircraft</th>
+                            <th>Emission</th>
+                            <th>Price</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var flight in Model.Flights)
+                        {
+                            <tr>
+                                <td><span class="badge bg-secondary">@flight.FlightCode</span></td>
+                                <td>@(flight.Airline?.Name ?? "—")</td>
+                                <td>@flight.From → @flight.To</td>
+                                <td>@flight.Date.ToString("MMM dd, yyyy")</td>
+                                <td>@flight.DepartureTime.ToString(@"hh\:mm")</td>
+                                <td>@flight.ArrivalTime.ToString(@"hh\:mm")</td>
+                                <td>@flight.CabinType</td>
+                                <td>@flight.AircraftType</td>
+                                <td>@flight.Emission kg</td>
+                                <td class="fw-bold text-success">$@flight.Price.ToString("0.00")</td>
+                                <td>
+                                    <a asp-action="Detail" asp-route-id="@flight.FlightId" class="btn btn-outline-primary btn-sm">Details</a>
+                                    <form asp-action="Select" method="post" class="d-inline">
+                                        <input type="hidden" name="id" value="@flight.FlightId" />
+                                        <button type="submit" class="btn btn-success btn-sm">Select</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

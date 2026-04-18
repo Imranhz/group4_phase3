@@ -1,0 +1,115 @@
+@{
+    ViewData["Title"] = "My Selections";
+    var selectedFlights = (List<Group4Flight.Models.Flight>)(ViewBag.SelectedFlights ?? new List<Group4Flight.Models.Flight>());
+    var reservedFlights = (List<Group4Flight.Models.Flight>)(ViewBag.ReservedFlights ?? new List<Group4Flight.Models.Flight>());
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>My Selections</h2>
+    <a asp-action="Index" class="btn btn-outline-primary">← Back to Search</a>
+</div>
+
+<!-- Session Selections -->
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Selected Flights <span class="badge bg-white text-info ms-2">@selectedFlights.Count</span></h5>
+        @if (selectedFlights.Any())
+        {
+            <form asp-action="ClearSelections" method="post">
+                <button type="submit" class="btn btn-sm btn-outline-light">Clear All</button>
+            </form>
+        }
+    </div>
+    <div class="card-body">
+        @if (!selectedFlights.Any())
+        {
+            <p class="text-muted mb-0">No flights selected yet. <a asp-action="Index">Search flights</a> to get started.</p>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Flight</th>
+                            <th>Airline</th>
+                            <th>Route</th>
+                            <th>Date</th>
+                            <th>Times</th>
+                            <th>Cabin</th>
+                            <th>Price</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var flight in selectedFlights)
+                        {
+                            <tr>
+                                <td><span class="badge bg-secondary">@flight.FlightCode</span></td>
+                                <td>@(flight.Airline?.Name ?? "—")</td>
+                                <td>@flight.From → @flight.To</td>
+                                <td>@flight.Date.ToString("MMM dd, yyyy")</td>
+                                <td>@flight.DepartureTime.ToString(@"hh\:mm") – @flight.ArrivalTime.ToString(@"hh\:mm")</td>
+                                <td>@flight.CabinType</td>
+                                <td class="fw-bold text-success">$@flight.Price.ToString("0.00")</td>
+                                <td>
+                                    <form asp-action="Reserve" method="post">
+                                        <input type="hidden" name="id" value="@flight.FlightId" />
+                                        <button type="submit" class="btn btn-primary btn-sm">Reserve (2 weeks)</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Cookie Reservations -->
+<div class="card shadow-sm">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0">Reserved Flights <span class="badge bg-white text-success ms-2">@reservedFlights.Count</span></h5>
+    </div>
+    <div class="card-body">
+        @if (!reservedFlights.Any())
+        {
+            <p class="text-muted mb-0">No flights reserved yet. Reserve flights above to hold them for 2 weeks.</p>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Flight</th>
+                            <th>Airline</th>
+                            <th>Route</th>
+                            <th>Date</th>
+                            <th>Times</th>
+                            <th>Cabin</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var flight in reservedFlights)
+                        {
+                            <tr>
+                                <td><span class="badge bg-secondary">@flight.FlightCode</span></td>
+                                <td>@(flight.Airline?.Name ?? "—")</td>
+                                <td>@flight.From → @flight.To</td>
+                                <td>@flight.Date.ToString("MMM dd, yyyy")</td>
+                                <td>@flight.DepartureTime.ToString(@"hh\:mm") – @flight.ArrivalTime.ToString(@"hh\:mm")</td>
+                                <td>@flight.CabinType</td>
+                                <td class="fw-bold text-success">$@flight.Price.ToString("0.00")</td>
+                                <td><span class="badge bg-success">Reserved</span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
